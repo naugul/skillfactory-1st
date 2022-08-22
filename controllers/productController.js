@@ -1,5 +1,5 @@
 const { getProduct, getProducts, getCategories, getProductsByCategory } = require('../models/products')
-const products = require('../models/products')
+//const products = require('../models/products')
 
 const getAllProducts = async (req, res) => {
     let products = await getProducts()
@@ -11,18 +11,36 @@ const getAllCategories = async (req, res) => {
     res.status(200).send(categories)
 }
 
+const getAllProductsFromCategory = async (req, res) => {
+    let category = req.params.category
+    let products = await getProductsByCategory(category)
+    res.status(200).send(products)
+}
+
 const getProductById = async (req, res) => {
     let id = req.params.id
     let product = await getProduct(id)
-    console.log(`User requested product with id ${id} at day ${req.today}`)
     res.status(200).send(product)
 }
 
 const getAllProductsByCategory = async (req, res) => {
     let categories = await getCategories()
     let productsByCategories = categories.map(async category => {
-        return await getProductsByCategory(category)
-    });
+        return {
+            category: category,
+            products: await getProductsByCategory(category)
+        }
+    })
+    Promise.all(productsByCategories).then(data => res.status(200).send(data))
+}
+
+const getMostExpensiveFromCategory = async (req, res) => {
+    let categories = await getCategories()
+    let productsByCategories = categories.map(async category => {
+        let productsByCategory = await getProductsByCategory(category)
+        let sortedProductsByCategory = productsByCategory.sort((a,b) => b.price - a.price)
+        return sortedProductsByCategory[0]
+    })
     Promise.all(productsByCategories).then(data => res.status(200).send(data))
 }
 
@@ -48,7 +66,9 @@ let productController = {
     getProductById,
     getProductsByCategory,
     getAllProductsByCategory,
-    getProductsByPrice
+    getProductsByPrice,
+    getMostExpensiveFromCategory,
+    getAllProductsFromCategory
 }
 
 module.exports = productController

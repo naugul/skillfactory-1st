@@ -12,7 +12,7 @@ async function getCart(id) {
 
 let carts = {
     getCarts,
-    getCart,
+    getCart
 }
 
-module.exports = carts;
+module.exports = carts

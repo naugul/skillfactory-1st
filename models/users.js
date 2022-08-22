@@ -21,4 +21,4 @@ let users = {
     getUsersLimited
 }
 
-module.exports = users;
+module.exports = users

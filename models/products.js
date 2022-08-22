@@ -28,4 +28,4 @@ let products = {
     getProductsByCategory
 }
 
-module.exports = products;
+module.exports = products

@@ -1,26 +1,11 @@
-function myDate(req, _res, next) {
+function logRequest(req, res, next) {
     req.date = new Date();
-    next();
-}
-
-function today(req, _res, next) {
-    let today = req.date;
-    req.today = today.getDay();
-    //console.log(req.today);
-    next();
-}
-
-function month(req, _res, next) {
-    let today = req.date;
-    req.month = today.getMonth();
-    //console.log(req.month);
+    console.log("Received " + req.method + " request for: "+ req.url + " on " + req.date)
     next();
 }
 
 let dates = {
-    myDate,
-    today,
-    month
+    logRequest
 }
 
-module.exports = dates;
+module.exports = dates
