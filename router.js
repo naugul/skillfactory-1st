@@ -9,9 +9,9 @@ const errorHandler = require('./middlewares/errorHandler')
 
 
 router.get('/products', [dates.logRequest], productController.getAllProducts)
+router.get('/products/categories', [dates.logRequest], productController.getAllProductsByCategory)
 router.get('/products/:id', [dates.logRequest], productController.getProductById)
 
-router.get('/products/categories', [dates.logRequest], productController.getAllProductsByCategory)
 router.get('/prices', [dates.logRequest], productController.getProductsByPrice)
 router.get('/expensive', [dates.logRequest], productController.getMostExpensiveFromCategory)
 router.get('/products/category/:category', [dates.logRequest], productController.getAllProductsFromCategory)
